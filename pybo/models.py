@@ -12,9 +12,15 @@ class Question(models.Model):
     modify_date = models.DateTimeField(null=True, blank=True) # 수정일시
     voter = models.ManyToManyField(User, related_name='voter_question')  # voter 추가 추천기능때 사용할 것
     # ManyToManyField 다대다 관계 voter = models.ManyToManyField(User)는 추천인 voter 필드를 ManyToManyField 관계로 추가한 것이다
+    n_hit = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return self.subject
+
+    @property
+    def update_counter(self):
+        self.n_hit = self.n_hit + 1
+        self.save()
 
 
 class Answer(models.Model):
@@ -34,6 +40,4 @@ class Comment(models.Model):
     modify_date = models.DateTimeField(null=True, blank=True) # 댓글 수정일시
     question = models.ForeignKey(Question, null=True, blank=True, on_delete=models.CASCADE) # 이 댓글이 달린 질문
     answer = models.ForeignKey(Answer, null=True, blank=True, on_delete=models.CASCADE) # 이 댓글이 달린 답변
-
-
 

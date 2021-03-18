@@ -22,6 +22,7 @@ def question_create(request):
             # 즉, 실제 데이터는 아직 저장되지 않은 상태를 말한다.
             question.author = request.user  # 추가한 속성 author 적용
             question.create_date = timezone.now()
+
             question.save()
             return redirect('pybo:index')
     else:
